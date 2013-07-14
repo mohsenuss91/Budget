@@ -42,7 +42,7 @@ public class BudgetFile
     try
     {
       Close();
-      connection = DriverManager.getConnection("jdbc:sqlite:" + name + ".db");     
+      Open(name);
       
       Statement statement = connection.createStatement();
       
@@ -59,6 +59,23 @@ public class BudgetFile
     catch(SQLException e)
     {
       // If the error message is "out of memory", 
+      // it probably means no database file is found
+      System.err.println(e.getMessage());
+    }
+  }
+  
+  public void Open(String name)
+  {
+    try
+    {
+      if (connection == null)
+      {      
+        connection = DriverManager.getConnection("jdbc:sqlite:" + name + ".db");
+      }
+    }
+    catch(SQLException e)
+    {
+      // if the error message is "out of memory", 
       // it probably means no database file is found
       System.err.println(e.getMessage());
     }

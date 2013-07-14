@@ -61,7 +61,7 @@ public class PaymentView
     }
     
     scrollPane.getViewport().add(innerPanel);
-    scrollPane.setPreferredSize(new Dimension(800, 700));
+    mainPanel.setPreferredSize(new Dimension(400, 700));
     mainPanel.add(scrollPane);
   }
   
