@@ -32,8 +32,7 @@ public class PaymentView
       gbc.gridx = 0;
       gbc.gridy = i;
 
-      JLabel label = new JLabel("Payment " + (i + 1));
-      label.setSize( 300, 300);
+      JLabel label = new JLabel("Payment " + (i + 1));      
       innerPanel.add(label, gbc);
       
       gbc.gridx = 1;
