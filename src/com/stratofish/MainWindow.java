@@ -37,7 +37,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     AddMenu();
     
     JSplitPane sp = new JSplitPane();
-    sp.setDividerLocation(600);
+    sp.setDividerLocation(425);
     add(sp);
     
     CalendarView calendarView = new CalendarView();

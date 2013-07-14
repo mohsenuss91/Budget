@@ -80,8 +80,8 @@ public class CalendarView
     }
     
     scrollPane.getViewport().add(innerPanel);
-    scrollPane.setPreferredSize(new Dimension(800, 700));
-    innerPanel.setPreferredSize(new Dimension(750, 650));
+    scrollPane.setPreferredSize(new Dimension(700, 700));
+    innerPanel.setPreferredSize(new Dimension(650, 650));
     mainPanel.add(scrollPane);
   }
   

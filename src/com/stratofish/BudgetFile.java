@@ -45,9 +45,6 @@ public class BudgetFile
       Open(name);
       
       Statement statement = connection.createStatement();
-      
-      System.out.println("Statement => " + statement);
-            
       statement.setQueryTimeout(30);  // Set timeout to 30 sec.           
   
       statement.executeUpdate("drop table if exists singlePayments");
