@@ -51,10 +51,10 @@ public class BudgetFile
       statement.setQueryTimeout(30);  // Set timeout to 30 sec.           
   
       statement.executeUpdate("drop table if exists singlePayments");
-      statement.executeUpdate("create table singlePayments(id integer, amount real, description text, paymentTypeId integer, verified integer, dateStamp integer)");
+      statement.executeUpdate("create table singlePayments(id integer primary key autoincrement, amount real, description text, paymentTypeId integer, verified integer, dateStamp integer)");
 
       statement.executeUpdate("drop table if exists paymentTypes");
-      statement.executeUpdate("create table paymentTypes(id integer, name text)");
+      statement.executeUpdate("create table paymentTypes(id integer primary key autoincrement, name text)");
     }
     catch(SQLException e)
     {
