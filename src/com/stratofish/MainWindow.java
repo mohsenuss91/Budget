@@ -6,6 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.swing.*;
 
@@ -18,29 +19,37 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   protected JMenuItem openMenuItem;
   protected JMenuItem saveMenuItem;
   protected JMenuItem exitMenuItem;
+  protected JMenuItem paymentTypesMenuItem;
 
   protected BudgetFile budgetFile = null;
   protected Connection conn = null;
+  
+  protected BudgetController bCon = null;
+  protected CalendarView calendarView = null;
 
   MainWindow()
 	{
   	CreateWindowComponents();
-  	
-  	//CalendarView calendarView = new CalendarView();
-  	//add(calendarView.GetPanel());
   	
   	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
   
   private void CreateWindowComponents()
   {
-    AddMenu();
+    AddMenus();
     
     JSplitPane sp = new JSplitPane();
     sp.setDividerLocation(425);
     add(sp);
     
-    CalendarView calendarView = new CalendarView();
+    try
+    {
+      calendarView = new CalendarView();
+    } catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    
     JPanel panel1 = calendarView.GetPanel();
     sp.setLeftComponent(panel1);
     
@@ -50,11 +59,11 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     
     setSize(1024, 768);
     setLocationRelativeTo(null);
-    
+
     setVisible(true);
   }
 
-  private void AddMenu()
+  private void AddMenus()
   {
     // Main bar
     menuBar = new JMenuBar();
@@ -63,6 +72,10 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     JMenu fileMenu = new JMenu("File");
     fileMenu.setMnemonic(KeyEvent.VK_F);
     menuBar.add(fileMenu);
+    
+    JMenu paymentsMenu = new JMenu("Payments");
+    paymentsMenu.setMnemonic(KeyEvent.VK_P);
+    menuBar.add(paymentsMenu);
 
     // Items
     newMenuItem = new JMenuItem("New", KeyEvent.VK_N);
@@ -87,6 +100,11 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     exitMenuItem.addActionListener(this);
     fileMenu.add(exitMenuItem);
     
+    paymentTypesMenuItem = new JMenuItem("Payment types", KeyEvent.VK_P);
+    paymentTypesMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
+    paymentTypesMenuItem.addActionListener(this);
+    paymentsMenu.add(paymentTypesMenuItem);
+    
     setJMenuBar(menuBar);
   }
 
@@ -99,13 +117,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   {
     System.out.println("New");
     
-    try
-    {
-      budgetFile = new BudgetFile();
-    } catch (ClassNotFoundException e)
-    {
-      e.printStackTrace();
-    }
+    budgetFile = new BudgetFile();
     
     budgetFile.New("newbudget");
     
@@ -114,7 +126,15 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   
   protected void Open()
   {
+    bCon = new BudgetController();
+    
+    bCon.Open("newbudget");
+    
+    calendarView.AddContent();
+    
     System.out.println("Open");
+    
+    repaint();
   }
   
   protected void Save()
@@ -125,6 +145,19 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   protected void Exit()
   {
     System.out.println("Exit");
+  }
+  
+  protected void PaymentTypes()
+  {
+    System.out.println("PaymentTypes");
+    
+    if (bCon == null)
+    {
+      System.out.println("No budget is loaded");
+      return;
+    }
+    
+    PaymentTypesDialog dlg = new PaymentTypesDialog(new JFrame(), bCon);
   }
   
   @Override
@@ -153,6 +186,10 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     if (source == exitMenuItem)
     {
       Exit();
+    }
+    if (source == paymentTypesMenuItem)
+    {
+      PaymentTypes();
     }
   }
 }

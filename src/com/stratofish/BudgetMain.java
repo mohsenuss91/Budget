@@ -1,5 +1,7 @@
 package com.stratofish;
 
+import java.sql.SQLException;
+
 public class BudgetMain
 {
   protected MainWindow window;

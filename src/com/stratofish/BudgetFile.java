@@ -10,10 +10,16 @@ public class BudgetFile
 {
   protected static Connection connection = null;   
   
-  public BudgetFile() throws ClassNotFoundException
+  public BudgetFile()
   {
     // load the sqlite-JDBC driver using the current class loader
-    Class.forName("org.sqlite.JDBC");   
+    try
+    {
+      Class.forName("org.sqlite.JDBC");
+    } catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }   
   }
   
   public static Connection Instance()
