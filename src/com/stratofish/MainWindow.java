@@ -45,6 +45,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     sp.setRightComponent(panel2);
     
     setSize(1024, 768);
+    setLocationRelativeTo(null);
     
     setVisible(true);
   }
