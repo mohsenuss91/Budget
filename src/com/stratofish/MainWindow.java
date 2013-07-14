@@ -25,6 +25,9 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   MainWindow()
 	{
   	CreateWindowComponents();
+  	
+  	//CalendarView calendarView = new CalendarView();
+  	//add(calendarView.GetPanel());
 	}
   
   private void CreateWindowComponents()
@@ -35,13 +38,12 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     
     add(sp);
     
-    JPanel panel1 = new JPanel();
+    CalendarView calendarView = new CalendarView();
+    JPanel panel1 = calendarView.GetPanel();
     sp.setLeftComponent(panel1);
     JPanel panel2 = new JPanel();
     sp.setRightComponent(panel2);
     
-    JLabel jlbHelloWorld = new JLabel("Hello World");
-    panel1.add(jlbHelloWorld);
     setSize(1024, 768);
     
     setVisible(true);
@@ -97,7 +99,6 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
       budgetFile = new BudgetFile();
     } catch (ClassNotFoundException e)
     {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     
