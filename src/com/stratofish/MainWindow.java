@@ -28,6 +28,8 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   	
   	//CalendarView calendarView = new CalendarView();
   	//add(calendarView.GetPanel());
+  	
+  	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
   
   private void CreateWindowComponents()
