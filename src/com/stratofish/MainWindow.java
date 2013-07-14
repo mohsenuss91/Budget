@@ -41,7 +41,9 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     CalendarView calendarView = new CalendarView();
     JPanel panel1 = calendarView.GetPanel();
     sp.setLeftComponent(panel1);
-    JPanel panel2 = new JPanel();
+    
+    PaymentView paymentView = new PaymentView();
+    JPanel panel2 = paymentView.GetPanel();
     sp.setRightComponent(panel2);
     
     setSize(1024, 768);
