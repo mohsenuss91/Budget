@@ -39,7 +39,7 @@ public class PaymentTypesDialog extends JDialog implements ActionListener
     JScrollPane sp = new JScrollPane();
     //JList list = new JList((ListModel) bCon.GetPaymentTypes());
     JList<PaymentType> list = new JList<PaymentType>();
-    list.setModel(new PaymentTypeListModel(bCon.GetPaymentTypes()));
+    //list.setModel(new PaymentTypeModel(bCon.GetPaymentTypes()));
     
     //JLabel label = new JLabel("test");
     //list.add("test");

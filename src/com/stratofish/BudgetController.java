@@ -33,7 +33,7 @@ public class BudgetController
     return null;
   }
   
-  public ArrayList<PaymentType> GetPaymentTypes()
+  public List<PaymentType> GetPaymentTypes()
   {
     Connection conn = GetConnection();
     
@@ -42,25 +42,9 @@ public class BudgetController
       return null;
     }
     
-    ArrayList<PaymentType> list = new ArrayList<PaymentType>();
+    PaymentTypeModel ptm = new PaymentTypeModel();
     
-    try
-    {
-      Statement statement = conn.createStatement();
-      ResultSet rs;
-      rs = statement.executeQuery("SELECT * FROM paymentTypes");
-      
-      while (rs.next())
-      {
-        PaymentType pt = new PaymentType();
-        pt.id = rs.getInt(1);
-        pt.name = rs.getString(2);
-        list.add(pt);
-      }
-    } catch (SQLException e)
-    {
-      e.printStackTrace();
-    }
+    List<PaymentType> list = ptm.GetCurrentPaymentTypes(conn);
     
     return list;
   }

@@ -29,6 +29,8 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
 
   MainWindow()
 	{
+    bCon = new BudgetController();
+    
   	CreateWindowComponents();
   	
   	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +46,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     
     try
     {
-      calendarView = new CalendarView();
+      calendarView = new CalendarView(bCon);
     } catch (SQLException e)
     {
       e.printStackTrace();
@@ -126,8 +128,6 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   
   protected void Open()
   {
-    bCon = new BudgetController();
-    
     bCon.Open("newbudget");
     
     calendarView.AddContent();

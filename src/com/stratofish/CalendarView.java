@@ -1,19 +1,16 @@
 package com.stratofish;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.LayoutManager;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.JLabel;
@@ -31,8 +28,9 @@ public class CalendarView
   protected int year;
   protected int day;
   protected Calendar cal;
+  protected BudgetController bCon;
   
-  CalendarView() throws SQLException
+  CalendarView(BudgetController p_bCon) throws SQLException
   {
     year = 2013;
     month = Calendar.JULY;
@@ -42,7 +40,7 @@ public class CalendarView
     scrollPane = new JScrollPane();
     innerPanel = new JPanel(new GridBagLayout());
     
-    
+    bCon = p_bCon;
     
     AddContent();
     
@@ -64,15 +62,51 @@ public class CalendarView
     
     GridBagConstraints gbc = new GridBagConstraints();
     
-    float cash = -1600;
+    List<PaymentType> columns = bCon.GetPaymentTypes();
     
+    // Headers
+    gbc.gridy = 0;
+    JLabel label = new JLabel("Date", SwingConstants.LEFT);
+    gbc.gridx = 0;
+    
+    label.setPreferredSize(new Dimension(75, 20));
+    Font font = label.getFont();
+    Font headerFont = font.deriveFont(15.0f);
+    int f = label.getWidth();
+    label.setFont(headerFont);
+
+    innerPanel.add(label, gbc);
+    
+    // Columns
+    int column = 1;
+    if (columns != null)
+    {
+      for (PaymentType paymentType : columns)
+      {
+        label = new JLabel(paymentType.name);
+        label.setPreferredSize(new Dimension(75, 20));
+        label.setFont(headerFont);
+        gbc.gridx = column;
+        innerPanel.add(label, gbc);
+        column++;
+      }
+    }
+    
+    label = new JLabel("Balance");
+    label.setPreferredSize(new Dimension(75, 20));
+    label.setFont(headerFont);
+    gbc.gridx = 10000;
+    innerPanel.add(label, gbc);
+    
+    float cash = -1600;
+
     // Loop per day
     for (int i = 0; i < days_in_month; i++)
     {
-      gbc.gridy = i;
+      gbc.gridy = i+1;
       date.set(year, month, i+1);
 
-      JLabel label = new JLabel((1+i)+getDayOfMonthSuffix(i+1)+" ("+date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, locale)+")", SwingConstants.LEFT);
+      label = new JLabel((1+i)+getDayOfMonthSuffix(i+1)+" ("+date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, locale)+")", SwingConstants.LEFT);
       gbc.gridx = 0;
       
       Color bgColour = new Color(1.0f, 1.0f, 1.0f);
@@ -89,49 +123,21 @@ public class CalendarView
       innerPanel.add(label, gbc);
       
       // Columns
-      Connection conn = BudgetFile.Instance();
-      Statement statement = null;
-      
-      if (conn != null)
+      column = 1;
+      if (columns != null)
       {
-        try
+        for (PaymentType paymentType : columns)
         {
-          statement = conn.createStatement();
-        } catch (SQLException e)
-        {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-        
-        int column = 2;
-        ResultSet rs = null;
-        try
-        {
-          rs = statement.executeQuery("select * from paymentTypes");
-        } catch (SQLException e)
-        {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-        try
-        {
-          while(rs.next())
-          {
-            label = new JLabel(rs.getString(2));
-            label.setOpaque(true);
-            label.setBackground(bgColour);
-            label.setPreferredSize(new Dimension(75, 20));
-            gbc.gridx = column;
-            innerPanel.add(label, gbc);
-            column++;
-          }
-        } catch (SQLException e)
-        {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+          label = new JLabel("");
+          label.setOpaque(true);
+          label.setBackground(bgColour);
+          label.setPreferredSize(new Dimension(75, 20));
+          gbc.gridx = column;
+          innerPanel.add(label, gbc);
+          
+          column++;
         }
       }
-      
       
       label = new JLabel(Float.toString(cash));
       label.setOpaque(true);
@@ -143,9 +149,8 @@ public class CalendarView
     
     scrollPane.getViewport().add(innerPanel);
 
-    scrollPane.setPreferredSize(new Dimension(700, 700));
-    innerPanel.setPreferredSize(new Dimension(650, 650));
     mainPanel.add(scrollPane);
+    mainPanel.validate();
   }
   
   String getDayOfMonthSuffix(final int n) {
