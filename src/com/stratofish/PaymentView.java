@@ -6,8 +6,10 @@ import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -21,16 +23,21 @@ public class PaymentView
 {
   protected JPanel mainPanel;
   protected JPanel innerPanel;
-  protected JScrollPane scrollPane;
+  protected JScrollPane scrollPane;  
+  protected BudgetController bCon;
 
-  PaymentView()
+  PaymentView(BudgetController p_bCon) throws SQLException
   {
+    bCon = p_bCon;
+    
     mainPanel = new JPanel();
     scrollPane = new JScrollPane();
     innerPanel = new JPanel(new GridBagLayout());
     
     GridBagConstraints gbc = new GridBagConstraints();   
-       
+
+    List<SinglePayment> columns = bCon.GetSinglePayments();
+    
     gbc.gridx = 0;
     gbc.gridy = 0;
 
