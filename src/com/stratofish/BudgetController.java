@@ -48,4 +48,20 @@ public class BudgetController
     
     return list;
   }
+  
+  public List<SinglePayment> GetSinglePayments()
+  {
+    Connection conn = GetConnection();
+    
+    if (conn == null)
+    {
+      return null;
+    }
+    
+    SinglePaymentModel spm = new SinglePaymentModel();
+    
+    List<SinglePayment> list = spm.GetCurrentSinglePayments(conn);
+    
+    return list;
+  }  
 }

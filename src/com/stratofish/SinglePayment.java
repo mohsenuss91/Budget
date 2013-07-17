@@ -9,5 +9,5 @@ public class SinglePayment
   public String description;
   public int paymentTypeId;
   public int verified;
-  public Date datestamp;
+  public Date dateStamp;
 }

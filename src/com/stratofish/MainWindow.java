@@ -26,6 +26,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   
   protected BudgetController bCon = null;
   protected CalendarView calendarView = null;
+  protected PaymentView paymentView = null;
 
   MainWindow()
 	{
@@ -55,7 +56,14 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     JPanel panel1 = calendarView.GetPanel();
     sp.setLeftComponent(panel1);
     
-    PaymentView paymentView = new PaymentView();
+    try
+    {
+      paymentView = new PaymentView(bCon);
+    } catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    
     JPanel panel2 = paymentView.GetPanel();
     sp.setRightComponent(panel2);
     
