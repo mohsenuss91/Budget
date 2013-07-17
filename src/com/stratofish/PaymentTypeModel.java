@@ -32,8 +32,9 @@ class PaymentTypeModel
       while (rs.next())
       {
         PaymentType pt = new PaymentType();
-        pt.id = rs.getInt(1);
-        pt.name = rs.getString(2);
+        pt.id = rs.getInt("id");
+        pt.name = rs.getString("name");
+        pt.archived = rs.getInt("archived");
         list.add(pt);
       }
     } catch (SQLException e)
