@@ -41,7 +41,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     AddMenus();
     
     JSplitPane sp = new JSplitPane();
-    sp.setDividerLocation(425);
+    sp.setDividerLocation(650);
     add(sp);
     
     try

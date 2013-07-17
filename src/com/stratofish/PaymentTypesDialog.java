@@ -21,7 +21,6 @@ public class PaymentTypesDialog extends JDialog implements ActionListener
    */
   private static final long serialVersionUID = 1L;
 
-  @SuppressWarnings("unchecked")
   public PaymentTypesDialog(JFrame parent, BudgetController bCon)
   {
     super(parent, "Payment types", true);
@@ -37,9 +36,9 @@ public class PaymentTypesDialog extends JDialog implements ActionListener
     
     JPanel dialogPane = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
     JScrollPane sp = new JScrollPane();
-    //JList list = new JList((ListModel) bCon.GetPaymentTypes());
-    JList<PaymentType> list = new JList<PaymentType>();
-    //list.setModel(new PaymentTypeModel(bCon.GetPaymentTypes()));
+    //JList list = new JList();
+    JList<String> list = new JList<String>();
+    list.setModel(new PaymentTypeListModel(bCon.GetPaymentTypes()));
     
     //JLabel label = new JLabel("test");
     //list.add("test");
