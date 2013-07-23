@@ -71,10 +71,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     setSize(1024, 768);
     setLocationRelativeTo(null);
 
-    setVisible(true);
-    
-    Open();
-    PaymentTypes();
+    setVisible(true);    
   }
 
   private void AddMenus()
