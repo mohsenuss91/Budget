@@ -48,8 +48,22 @@ public class PaymentView
     
     bgColour = new Color(1.0f, 1.0f, 1.0f);
     
-    // Loop per payment        
-    for (int i = 1; i < 11; i++)
+    // Loop per payment
+    if (columns != null)
+    {           
+      for (SinglePayment singlePayment : columns)
+      {
+        JLabel label = new JLabel(Integer.toString(singlePayment.dateStamp.get( Calendar.YEAR)));
+        label.setOpaque(true);
+        label.setBackground(bgColour);
+        label.setPreferredSize(new Dimension(90, 20));
+        label.setBorder(paddingBorder);
+        innerPanel.add(label, gbc);
+        gbc.gridy++;      
+      }
+    }
+      
+    for (int i = 10; i < 11; i++)
     {          
       gbc.gridy = i;      
       
