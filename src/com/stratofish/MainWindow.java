@@ -142,17 +142,19 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   {
     bCon.Open("newbudget");
     
-    calendarView.AddContent();
-    
+    splitter.remove(calendarView.GetPanel());
     splitter.remove(paymentView.GetPanel());
+    
     try
     {
       paymentView = new PaymentView(bCon);
+      calendarView = new CalendarView(bCon);
     } catch (SQLException e)
     {
       e.printStackTrace();
     }
     
+    splitter.setLeftComponent(calendarView.GetPanel());
     splitter.setRightComponent(paymentView.GetPanel());
     
     repaint();

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,7 +33,7 @@ public class PaymentTypesDialog extends JDialog implements ActionListener
     }
     
     //setLocationRelativeTo(null);
-    setSize(200, 500);
+    setSize(400, 500);
     
     JPanel dialogPane = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
     JScrollPane sp = new JScrollPane();
@@ -40,8 +41,8 @@ public class PaymentTypesDialog extends JDialog implements ActionListener
     JList<String> list = new JList<String>();
     list.setModel(new PaymentTypeListModel(bCon.GetPaymentTypes()));
     
-    //JLabel label = new JLabel("test");
-    //list.add("test");
+    JLabel label = new JLabel("test");
+    list.add(label);
     
     getContentPane().add(sp);
     sp.getViewport().add(list);
