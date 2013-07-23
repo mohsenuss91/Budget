@@ -1,6 +1,6 @@
 package com.stratofish;
 
-import java.sql.Date;
+import java.util.Calendar;
 
 public class SinglePayment
 {
@@ -9,5 +9,5 @@ public class SinglePayment
   public String description;
   public int paymentTypeId;
   public int verified;
-  public Date dateStamp;
+  public Calendar dateStamp;
 }

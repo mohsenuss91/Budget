@@ -1,21 +1,19 @@
 package com.stratofish;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 class SinglePaymentModel
-{
+{   
   public SinglePaymentModel()
   {
-    
   }
   
-  @SuppressWarnings("deprecation")
   public List<SinglePayment> GetCurrentSinglePayments(Connection conn)
   {
     if (conn == null)
@@ -49,10 +47,7 @@ class SinglePaymentModel
 
         int day = dateStamp;
 
-        sp.dateStamp = new Date(0);
-        sp.dateStamp.setYear(year);
-        sp.dateStamp.setMonth(month);
-        sp.dateStamp.setDate(day);
+        sp.dateStamp = new GregorianCalendar(year, month - 1, day);
         
         list.add(sp);
       }

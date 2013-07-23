@@ -11,7 +11,6 @@ class PaymentTypeModel
 {
   public PaymentTypeModel()
   {
-    
   }
   
   public List<PaymentType> GetCurrentPaymentTypes(Connection conn)
