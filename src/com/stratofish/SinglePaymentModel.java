@@ -42,13 +42,13 @@ class SinglePaymentModel
         int year = (int)Math.floor((double)dateStamp / 10000.0f);
         dateStamp -= (year * 10000);
         
-        int month = (int)Math.floor((double)(dateStamp - (year * 10000)) / 100.0f);
+        int month = (int)Math.floor((double)dateStamp / 100.0f);
         dateStamp -= (month * 100);
 
         int day = dateStamp;
 
         sp.dateStamp = new GregorianCalendar(year, month - 1, day);
-        
+
         list.add(sp);
       }
     } catch (SQLException e)

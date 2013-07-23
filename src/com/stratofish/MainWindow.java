@@ -128,11 +128,11 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   {
     System.out.println("New");
     
-    budgetFile = new BudgetFile();
+    //budgetFile = new BudgetFile();
     
-    budgetFile.New("newbudget");
+    //budgetFile.New("newbudget");
     
-    conn = BudgetFile.Instance();
+    //conn = BudgetFile.Instance();
   }
   
   protected void Open()
