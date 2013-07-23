@@ -27,6 +27,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   protected BudgetController bCon = null;
   protected CalendarView calendarView = null;
   protected PaymentView paymentView = null;
+  protected JSplitPane splitter = null;
 
   MainWindow()
 	{
@@ -41,9 +42,9 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   {
     AddMenus();
     
-    JSplitPane sp = new JSplitPane();
-    sp.setDividerLocation(650);
-    add(sp);
+    splitter = new JSplitPane();
+    splitter.setDividerLocation(650);
+    add(splitter);
     
     try
     {
@@ -54,7 +55,7 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     }
     
     JPanel panel1 = calendarView.GetPanel();
-    sp.setLeftComponent(panel1);
+    splitter.setLeftComponent(panel1);
     
     try
     {
@@ -65,12 +66,15 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     }
     
     JPanel panel2 = paymentView.GetPanel();
-    sp.setRightComponent(panel2);
+    splitter.setRightComponent(panel2);
     
     setSize(1024, 768);
     setLocationRelativeTo(null);
 
     setVisible(true);
+    
+    Open();
+    PaymentTypes();
   }
 
   private void AddMenus()
@@ -140,7 +144,16 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
     
     calendarView.AddContent();
     
-    System.out.println("Open");
+    splitter.remove(paymentView.GetPanel());
+    try
+    {
+      paymentView = new PaymentView(bCon);
+    } catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    
+    splitter.setRightComponent(paymentView.GetPanel());
     
     repaint();
   }
@@ -157,8 +170,6 @@ public class MainWindow extends JFrame implements ActionListener, ItemListener
   
   protected void PaymentTypes()
   {
-    System.out.println("PaymentTypes");
-    
     if (bCon == null)
     {
       System.out.println("No budget is loaded");
