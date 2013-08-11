@@ -7,18 +7,23 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.Console;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class CalendarView
+public class CalendarView implements ActionListener
 {
   protected JPanel mainPanel;
   protected JPanel innerPanel = null;
@@ -29,6 +34,8 @@ public class CalendarView
   protected int day;
   protected Calendar cal;
   protected BudgetController bCon;
+  protected JTextField yearTextBox;
+  protected JComboBox monthCombo;
   
   CalendarView(BudgetController p_bCon) throws SQLException
   {
@@ -54,8 +61,10 @@ public class CalendarView
     
     innerPanel = new JPanel(new GridBagLayout());
     
-    cal = new GregorianCalendar(year, month, day);
-    int days_in_month = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+    String[] monthList = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    
+    cal = new GregorianCalendar(year, (month), day);
+    int days_in_month = cal.getActualMaximum(Calendar.DATE);
     
     GregorianCalendar date = new GregorianCalendar(year, month, 1);
     Locale locale = new Locale("ENGLISH", "United Kingdom");
@@ -64,15 +73,27 @@ public class CalendarView
     
     List<PaymentType> columns = bCon.GetPaymentTypes();
     
-    // Headers
     gbc.gridy = 0;
+    gbc.gridx = 1;
+    yearTextBox = new JTextField(String.valueOf(year));
+    yearTextBox.setPreferredSize(new Dimension(75, 25));
+    yearTextBox.addActionListener(this);
+    innerPanel.add(yearTextBox, gbc);
+    
+    gbc.gridx = 0;
+    monthCombo = new JComboBox(monthList);
+    monthCombo.setSelectedIndex(month);
+    monthCombo.addActionListener(this);
+    innerPanel.add(monthCombo, gbc);
+    
+    // Headers
+    gbc.gridy = 1;
     JLabel label = new JLabel("Date", SwingConstants.LEFT);
     gbc.gridx = 0;
     
     label.setPreferredSize(new Dimension(75, 20));
     Font font = label.getFont();
     Font headerFont = font.deriveFont(15.0f);
-    int f = label.getWidth();
     label.setFont(headerFont);
 
     innerPanel.add(label, gbc);
@@ -98,12 +119,12 @@ public class CalendarView
     gbc.gridx = 10000;
     innerPanel.add(label, gbc);
     
-    float cash = -1600;
+    float cash = 0;
 
     // Loop per day
     for (int i = 0; i < days_in_month; i++)
     {
-      gbc.gridy = i+1;
+      gbc.gridy = i+2;
       date.set(year, month, i+1);
 
       label = new JLabel((1+i)+getDayOfMonthSuffix(i+1)+" ("+date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, locale)+")", SwingConstants.LEFT);
@@ -118,7 +139,7 @@ public class CalendarView
       }
       label.setOpaque(true);
       label.setBackground(bgColour);
-      label.setPreferredSize(new Dimension(75, 20));
+      label.setPreferredSize(new Dimension(95, 20));
 
       innerPanel.add(label, gbc);
       
@@ -168,5 +189,27 @@ public class CalendarView
   JPanel GetPanel()
   {
     return mainPanel;
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent arg0)
+  {
+    Object source = arg0.getSource();
+    
+    if (source == monthCombo)
+    {
+      JComboBox monthBox = (JComboBox) source;
+      month = (monthBox.getSelectedIndex());
+      AddContent();
+      
+    }
+    
+    if (source == yearTextBox)
+    {
+      JTextField yearBox = (JTextField) source;
+      year = Integer.parseInt(yearBox.getText());
+      AddContent();
+      
+    }
   }
 }
