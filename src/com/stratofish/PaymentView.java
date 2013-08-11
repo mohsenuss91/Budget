@@ -129,7 +129,7 @@ public class PaymentView
 
         gbc.gridx++;
         
-        label = new JLabel(String.format("£%, 10.2f", singlePayment.amount));
+        label = new JLabel(String.format("Â£%,.2f", singlePayment.amount));
         label.setOpaque(true);
         label.setBackground(bgColour);
         label.setPreferredSize(new Dimension(100, 20));
