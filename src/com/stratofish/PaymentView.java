@@ -2,6 +2,7 @@ package com.stratofish;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -39,70 +40,112 @@ public class PaymentView
     List<SinglePayment> columns = bCon.GetSinglePayments();
     
     gbc.gridx = 0;
-    gbc.gridy = 0;
-
-    Color bgColour = new Color(0.8f, 0.8f, 0.8f);
+    gbc.gridy = 0;   
     
     Border paddingBorder = BorderFactory.createEmptyBorder(10,10,10,10);
     Border bevelBorder = BorderFactory.createBevelBorder(0);
     
-    bgColour = new Color(1.0f, 1.0f, 1.0f);
+    Color bgColour = new Color(1.0f, 1.0f, 1.0f);          
+    
+    JLabel label = new JLabel("Date");
+    label.setOpaque(true);
+    label.setBackground(bgColour);
+    label.setPreferredSize(new Dimension(90, 20));
+    label.setBorder(paddingBorder);
+    innerPanel.add(label, gbc);
+    
+    Font font = label.getFont();
+    Font headerFont = font.deriveFont(15.0f);    
+    label.setFont(headerFont);
+    
+    gbc.gridx++;
+    
+    label = new JLabel("Description");
+    label.setOpaque(true);
+    label.setBackground(bgColour);
+    label.setPreferredSize(new Dimension(125, 20));
+    label.setBorder(paddingBorder);
+    innerPanel.add(label, gbc);
+    
+    font = label.getFont();
+    headerFont = font.deriveFont(15.0f);    
+    label.setFont(headerFont);
+
+    gbc.gridx++;
+    
+    label = new JLabel("Amount");
+    label.setOpaque(true);
+    label.setBackground(bgColour);
+    label.setPreferredSize(new Dimension(100, 20));
+    label.setBorder(paddingBorder);
+    innerPanel.add(label, gbc);
+    
+    font = label.getFont();
+    headerFont = font.deriveFont(15.0f);    
+    label.setFont(headerFont);        
+    
+    gbc.gridx++;
+    
+    label = new JLabel("Verified");
+    label.setOpaque(true);
+    label.setBackground(bgColour);
+    label.setPreferredSize(new Dimension(100, 20));
+    label.setBorder(paddingBorder);
+    innerPanel.add(label, gbc);
+    
+    font = label.getFont();
+    headerFont = font.deriveFont(15.0f);    
+    label.setFont(headerFont);    
+    
+    gbc.gridy++;
+    gbc.gridx = 0;
     
     // Loop per payment
     if (columns != null)
     {           
       for (SinglePayment singlePayment : columns)
       {
-        JLabel label = new JLabel(Integer.toString(singlePayment.dateStamp.get( Calendar.YEAR)));
+        String dateStamp = String.format("%02d", singlePayment.dateStamp.get( Calendar.DAY_OF_MONTH)) 
+                         + "/"
+                         + String.format("%02d", singlePayment.dateStamp.get( Calendar.MONTH))
+                         + "/"
+                         + String.format("%04d", singlePayment.dateStamp.get( Calendar.YEAR));
+        
+        label = new JLabel(dateStamp);
         label.setOpaque(true);
         label.setBackground(bgColour);
         label.setPreferredSize(new Dimension(90, 20));
         label.setBorder(paddingBorder);
-        innerPanel.add(label, gbc);
-        gbc.gridy++;      
-      }
-    }
-      
-    for (int i = 10; i < 11; i++)
-    {          
-      gbc.gridy = i;      
-      
-      gbc.gridx = 0;
-      JLabel label = new JLabel("01/02/2013");
-      label.setOpaque(true);
-      label.setBackground(bgColour);
-      label.setPreferredSize(new Dimension(90, 20));
-      label.setBorder(paddingBorder);
-      innerPanel.add(label, gbc);
-      
-      gbc.gridx = 1;            
-      label = new JLabel("Desription " + (i + 1));
-      label.setOpaque(true);
-      label.setBackground(bgColour);
-      label.setPreferredSize(new Dimension(125, 20));
-      label.setBorder(paddingBorder);
-      innerPanel.add(label, gbc);
+        innerPanel.add(label, gbc);        
+        
+        gbc.gridx++;
+        
+        label = new JLabel(singlePayment.description);
+        label.setOpaque(true);
+        label.setBackground(bgColour);        
+        label.setPreferredSize(new Dimension(125, 20));
+        label.setBorder(paddingBorder);
+        innerPanel.add(label, gbc);        
 
-      gbc.gridx = 2;
-      label = new JLabel("£");
-      label.setOpaque(true);
-      label.setBackground(bgColour);
-      label.setPreferredSize(new Dimension(30, 20));
-      label.setBorder(paddingBorder);
-      innerPanel.add(label, gbc);
-      
-      gbc.gridx = 3;
-      label = new JLabel(String.format("%,10.2f", (-1600.02f * (i + 1))));
-      label.setOpaque(true);
-      label.setBackground(bgColour);
-      label.setPreferredSize(new Dimension(90, 20));
-      label.setHorizontalAlignment(SwingConstants.RIGHT);
-      label.setBorder(paddingBorder);
-      innerPanel.add(label, gbc);
-      
-      gbc.gridx = 4;
-      JCheckBox checkBox = new JCheckBox();
-      innerPanel.add(checkBox, gbc);
+        gbc.gridx++;
+        
+        label = new JLabel(String.format("£%, 10.2f", singlePayment.amount));
+        label.setOpaque(true);
+        label.setBackground(bgColour);
+        label.setPreferredSize(new Dimension(100, 20));
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
+        label.setBorder(paddingBorder);
+        innerPanel.add(label, gbc);
+        
+        gbc.gridx++;
+        
+        JCheckBox checkBox = new JCheckBox();        
+        checkBox.setHorizontalAlignment(SwingConstants.LEFT);
+        innerPanel.add(checkBox, gbc);        
+        
+        gbc.gridy++;
+        gbc.gridx = 0;
+      }
     }
     
     scrollPane.getViewport().add(innerPanel);
